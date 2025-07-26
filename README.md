@@ -3,3 +3,8 @@ Cardano Wallet
 Address :- "addr_test1vqp9zy2cct39sh2w6zy4ylyns7jgfkcev7mrtwtfxzg8qgshda3cx"
 
 funds at "30efe7bdea9d2f9c2b3cbe3f8b79551372b67659762c7689d04eea517f3c5715" prepod 
+
+Wallet generation 
+"addr_test1qrpf2jzqg6wx6rehasphfkfagw0aeqze3km9pzn66kpgv4pwchump6eh3ymzhekjzcsr8khy0faha7m2uhq94wuepkfsu428xe"
+
+funds explore at "2e6ca7b8c9b2184937a52a44f1959a29bf9d0ca75460cb0f5f987d9f6ad50afd"
