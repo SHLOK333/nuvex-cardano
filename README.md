@@ -59,3 +59,36 @@ Paid: 0.0000005435081676 ETH (389260 gas * 0.00139626 gwei)
 
 ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
 
+
+Script ran successfully.
+
+== Logs ==
+  Contract deployed to: 0x35f0289a16f9427A8f2EDdFf3151Dc088873129c
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 11155111
+
+Estimated gas price: 0.001210458 gwei
+
+Estimated total gas used for script: 506038
+
+Estimated amount required: 0.000000612537745404 ETH
+
+==========================
+
+##### sepolia
+✅  [Success] Hash: 0x06652668660c9059a4a33f188459bf1cfcfa874a784f3270b9dbb918bb0dff65
+Contract Address: 0x35f0289a16f9427A8f2EDdFf3151Dc088873129c
+Block: 8848753
+Paid: 0.00000043189837262 ETH (389260 gas * 0.001109537 gwei)
+
+✅ Sequence #1 on sepolia | Total Paid: 0.00000043189837262 ETH (389260 gas * avg 0.001109537 gwei)
+
+
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+
