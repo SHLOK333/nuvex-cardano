@@ -25,12 +25,37 @@ CARDANO TXHASH
 
 eth to ada 
 
-Compiler run successful!
+[⠢] Compiling...
+No files changed, compilation skipped
 Script ran successfully.
-Gas used: 379650
 
 == Logs ==
-  Contract deployed to: 0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496
+  Contract deployed to: 0x7221d00404Ac3EdcD38BcfAEd261b41b676721C9
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 11155111
+
+Estimated gas price: 0.00180568 gwei
+
+Estimated total gas used for script: 506038
+
+Estimated amount required: 0.00000091374269584 ETH
+
+==========================
+
+##### sepolia
+✅  [Success] Hash: 0x693c3ef7bc1b6f0e1ba4648460f42d032d383984d72fc8c646b644087b6dc066
+Contract Address: 0x7221d00404Ac3EdcD38BcfAEd261b41b676721C9
+Block: 8848709
+Paid: 0.0000005435081676 ETH (389260 gas * 0.00139626 gwei)
+
+✅ Sequence #1 on sepolia | Total Paid: 0.0000005435081676 ETH (389260 gas * avg 0.00139626 gwei)
 
 
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
 
