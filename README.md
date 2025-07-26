@@ -8,3 +8,5 @@ Wallet generation
 "addr_test1qrpf2jzqg6wx6rehasphfkfagw0aeqze3km9pzn66kpgv4pwchump6eh3ymzhekjzcsr8khy0faha7m2uhq94wuepkfsu428xe"
 
 funds explore at "2e6ca7b8c9b2184937a52a44f1959a29bf9d0ca75460cb0f5f987d9f6ad50afd"
+
+explorer link https://preprod.cardanoscan.io/transaction/2e6ca7b8c9b2184937a52a44f1959a29bf9d0ca75460cb0f5f987d9f6ad50afd
