@@ -1,4 +1,4 @@
-fully funcitonal atomic swaps 
+fully functional atomic swaps 
 
 
 # nuvex-cardano
