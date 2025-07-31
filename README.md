@@ -1,3 +1,6 @@
+fully funcitonal atomic swaps 
+
+
 # nuvex-cardano
 Cardano Wallet 
 Address :- "addr_test1vqp9zy2cct39sh2w6zy4ylyns7jgfkcev7mrtwtfxzg8qgshda3cx"
