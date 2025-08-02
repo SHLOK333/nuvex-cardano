@@ -1,0 +1,80 @@
+{
+  "preamble": {
+    "title": "adcazzum/escrow",
+    "description": "Aiken contracts for project 'adcazzum/escrow'",
+    "version": "0.0.0",
+    "plutusVersion": "v3",
+    "compiler": {
+      "name": "Aiken",
+      "version": "v1.1.17+unknown"
+    },
+    "license": "Apache-2.0"
+  },
+  "validators": [
+    {
+      "title": "escrow.escrow.spend",
+      "datum": {
+        "title": "_datum_opt",
+        "schema": {
+          "$ref": "#/definitions/Data"
+        }
+      },
+      "redeemer": {
+        "title": "redeemer",
+        "schema": {
+          "$ref": "#/definitions/ByteArray"
+        }
+      },
+      "parameters": [
+        {
+          "title": "hash",
+          "schema": {
+            "$ref": "#/definitions/ByteArray"
+          }
+        },
+        {
+          "title": "lock_until",
+          "schema": {
+            "$ref": "#/definitions/Int"
+          }
+        }
+      ],
+      "compiledCode": "58710101002229800aba2aba1aab9eaab9dab9a9bae0039bad002488888896600264646644b30013370e900118041baa00289919912cc00528c4cdc79bc7375c601a00c01314a08050c02c004c02cc030004c024dd5001459007180418048009804001180400098029baa0088a4d13656400c1",
+      "hash": "51054032475546811c9900d827579567cb43f8cf403940fd201d35ef"
+    },
+    {
+      "title": "escrow.escrow.else",
+      "redeemer": {
+        "schema": {}
+      },
+      "parameters": [
+        {
+          "title": "hash",
+          "schema": {
+            "$ref": "#/definitions/ByteArray"
+          }
+        },
+        {
+          "title": "lock_until",
+          "schema": {
+            "$ref": "#/definitions/Int"
+          }
+        }
+      ],
+      "compiledCode": "58710101002229800aba2aba1aab9eaab9dab9a9bae0039bad002488888896600264646644b30013370e900118041baa00289919912cc00528c4cdc79bc7375c601a00c01314a08050c02c004c02cc030004c024dd5001459007180418048009804001180400098029baa0088a4d13656400c1",
+      "hash": "51054032475546811c9900d827579567cb43f8cf403940fd201d35ef"
+    }
+  ],
+  "definitions": {
+    "ByteArray": {
+      "dataType": "bytes"
+    },
+    "Data": {
+      "title": "Data",
+      "description": "Any Plutus data."
+    },
+    "Int": {
+      "dataType": "integer"
+    }
+  }
+}
