@@ -43,7 +43,7 @@ async function runCompleteTimelockCycle() {
         console.log("📝 Changing to ethereum directory...");
         process.chdir('../ethereum');
         
-        const deployCommand = `RECIPIENT_ADDRESS="0xe185a249e622274f3ad1538229a9c579a9e8fc42" ETH_PRIVATE_KEY="39fac5f4ecef2d735d33124af40e087f102dc1d2e708c6c8f5f5ddf33ae19b8d" SECRET="0x68656c6c6f" forge script script/TimelockDeploy.sol:TimelockDeploy --rpc-url "https://eth-sepolia.g.alchemy.com/v2/DD1U2tcVyJGO3IZFUW8rzVdNNRFoPLtp" --private-key "0x39fac5f4ecef2d735d33124af40e087f102dc1d2e708c6c8f5f5ddf33ae19b8d" --broadcast -v`;
+        const deployCommand = `
         
         console.log("📝 Running Ethereum deployment...");
         const { stdout: step2Output } = await execAsync(deployCommand);
