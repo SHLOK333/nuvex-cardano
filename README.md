@@ -68,95 +68,31 @@ graph TB
 The project implements sophisticated cross-chain escrow mechanisms using Hash Time Locked Contracts (HTLCs) and 1inch protocol integration.
 
 ```mermaid
-graph TB
-    subgraph "⛓️ Ethereum Side (Solidity)"
-        ETH_ESCROW[EscrowSrc.sol<br/>Basic Escrow Contract]
-        ATOMIC_1INCH[AtomicSwap1inch.sol<br/>Advanced 1inch Integration]
-        TIMELOCK[TimelockDeploy.sol<br/>Time-based Security]
-        
-        subgraph "🔧 Solidity Components"
-            CREATE_SWAP[createSwap()<br/>Lock ETH/ERC20]
-            CLAIM_1INCH[claimWithOneInch()<br/>Execute + 1inch swap]
-            REFUND_ETH[refund()<br/>Timeout recovery]
-            VALIDATE_SECRET[Secret validation<br/>keccak256(secret)]
-        end
-        
-        subgraph "🌟 1inch Integration Points"
-            ROUTER_CALL[1inch Router Call<br/>Optimal liquidity]
-            MEV_PROTECTION[MEV Protection<br/>Gas + Slippage limits]
-            PARTIAL_FILLS[Partial Execution<br/>Large order splitting]
-        end
+graph LR
+    subgraph "⛓️ Ethereum"
+        ETH[AtomicSwap1inch.sol<br/>� Lock ETH<br/>🌟 1inch Integration]
     end
     
-    subgraph "🔄 Cross-Chain Bridge"
-        SECRET_HASH[Shared Secret Hash<br/>SHA256/Keccak256]
-        TIMELOCK_PARAMS[Timelock Parameters<br/>Deadline coordination]
-        ORACLE_EVENTS[Cross-chain Events<br/>Status synchronization]
+    subgraph "🌉 Bridge"
+        SECRET[🔐 Secret Hash<br/>⏰ Timelock<br/>📡 Events]
     end
     
-    subgraph "🏛️ Cardano Side (Aiken/Haskell)"
-        ADA_ESCROW[escrow.ak<br/>Aiken Validator]
-        PLUTUS_CONTRACT[AtomicSwap.hs<br/>Plutus Contract]
-        REVERSE_ESCROW[reverse_validator.ak<br/>Reverse Flow Handler]
-        
-        subgraph "🔐 Cardano Components"
-            LOCK_ADA[Lock ADA<br/>UTXO creation]
-            UNLOCK_ADA[Unlock ADA<br/>Secret revelation]
-            REFUND_ADA[Refund ADA<br/>Timeout handling]
-            VALIDATE_HASH[Hash validation<br/>Secret verification]
-        end
-        
-        subgraph "🏗️ Cardano Integration"
-            UTXO_MANAGEMENT[UTXO Management<br/>Datum/Redeemer logic]
-            MESH_SDK[MeshSDK Integration<br/>Transaction building]
-            BLOCKFROST[Blockfrost API<br/>Chain queries]
-        end
+    subgraph "🏛️ Cardano"
+        ADA[escrow.ak<br/>� Lock ADA<br/>🏗️ UTXO Logic]
     end
     
-    subgraph "☁️ Demeter.run Infrastructure"
-        DEMETER_NODE[Cardano Node<br/>Preprod/Mainnet]
-        DEMETER_API[Blockfrost API<br/>Integrated access]
-        DEMETER_IDE[VS Code + Aiken<br/>Development environment]
+    subgraph "☁️ Demeter.run"
+        DEMETER[🖥️ Cardano Node<br/>🔧 VS Code<br/>📊 Blockfrost]
     end
     
-    %% Cross-chain connections
-    ETH_ESCROW --> SECRET_HASH
-    ADA_ESCROW --> SECRET_HASH
+    ETH <--> SECRET
+    SECRET <--> ADA
+    ADA <--> DEMETER
     
-    ATOMIC_1INCH --> TIMELOCK_PARAMS
-    PLUTUS_CONTRACT --> TIMELOCK_PARAMS
-    
-    CREATE_SWAP --> ORACLE_EVENTS
-    LOCK_ADA --> ORACLE_EVENTS
-    
-    %% 1inch integration
-    CLAIM_1INCH --> ROUTER_CALL
-    ROUTER_CALL --> MEV_PROTECTION
-    MEV_PROTECTION --> PARTIAL_FILLS
-    
-    %% Cardano integrations
-    ADA_ESCROW --> UTXO_MANAGEMENT
-    PLUTUS_CONTRACT --> MESH_SDK
-    MESH_SDK --> BLOCKFROST
-    
-    %% Demeter connections
-    BLOCKFROST --> DEMETER_API
-    ADA_ESCROW --> DEMETER_NODE
-    PLUTUS_CONTRACT --> DEMETER_IDE
-
-    classDef ethereumStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:3px
-    classDef bridgeStyle fill:#fff3e0,stroke:#f57c00,stroke-width:3px
-    classDef cardanoStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:3px
-    classDef demeterStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px
-    classDef componentStyle fill:#ffebee,stroke:#c62828,stroke-width:2px
-    classDef integrationStyle fill:#e0f2f1,stroke:#00695c,stroke-width:2px
-    
-    class ETH_ESCROW,ATOMIC_1INCH,TIMELOCK ethereumStyle
-    class SECRET_HASH,TIMELOCK_PARAMS,ORACLE_EVENTS bridgeStyle
-    class ADA_ESCROW,PLUTUS_CONTRACT,REVERSE_ESCROW cardanoStyle
-    class DEMETER_NODE,DEMETER_API,DEMETER_IDE demeterStyle
-    class CREATE_SWAP,CLAIM_1INCH,REFUND_ETH,VALIDATE_SECRET,LOCK_ADA,UNLOCK_ADA,REFUND_ADA,VALIDATE_HASH componentStyle
-    class ROUTER_CALL,MEV_PROTECTION,PARTIAL_FILLS,UTXO_MANAGEMENT,MESH_SDK,BLOCKFROST integrationStyle
+    ETH -.->|"1. Create Swap"| SECRET
+    ADA -.->|"2. Lock Response"| SECRET
+    SECRET -.->|"3. Reveal Secret"| ETH
+    SECRET -.->|"4. Claim with Secret"| ADA
 ```
 
 ### **Timelock and Hashlock Mechanics**
@@ -545,108 +481,40 @@ graph TB
 
 ---
 
-## 🔄 **Complete Bidirectional Flow Architecture**
+## 🔄 **Simple Swap Flows**
 
-### **ETH → ADA with 1inch Optimization**
+### **ETH → ADA Swap**
 
 ```mermaid
 sequenceDiagram
-    participant Alice as Alice<br/>(ETH Holder)
-    participant EthEscrow as AtomicSwap1inch.sol<br/>(Ethereum)
-    participant OneInch as 1inch Router<br/>(Liquidity Aggregation)
-    participant Oracle as Cross-Chain Oracle<br/>(Event Bridge)
-    participant AdaEscrow as escrow.ak<br/>(Cardano Validator)
-    participant Bob as Bob<br/>(ADA Holder)
-    participant Demeter as Demeter.run<br/>(Cloud Infrastructure)
+    participant Alice as 👩 Alice
+    participant ETH as 🔷 Ethereum
+    participant ADA as 🔸 Cardano
+    participant Bob as 👨 Bob
 
-    Note over Alice,Demeter: Phase 1: Initialization & Setup
-    Alice->>Alice: Generate secret (32 bytes)
-    Alice->>Alice: secretHash = keccak256(secret)
-    Bob->>Demeter: Setup Cardano environment
-    Demeter->>AdaEscrow: Deploy validator on Cardano
-
-    Note over Alice,Demeter: Phase 2: ETH Lock with 1inch Preparation
-    Alice->>EthEscrow: createSwap(secretHash, Bob, deadline, ETH, cardanoTxHash, minReturn)
-    EthEscrow->>EthEscrow: _validateMevProtection(deadline)
-    EthEscrow->>EthEscrow: Lock ETH in contract
-    EthEscrow->>Oracle: Emit SwapCreated event
-    Oracle->>Demeter: Broadcast ETH lock status
-
-    Note over Alice,Demeter: Phase 3: ADA Lock Response
-    Bob->>Demeter: Query ETH lock status via Blockfrost
-    Demeter->>Bob: Confirm ETH lock with same secretHash
-    Bob->>AdaEscrow: Lock ADA with secretHash + deadline
-    AdaEscrow->>AdaEscrow: Create UTXO with datum(secretHash, deadline)
-    AdaEscrow->>Oracle: Broadcast ADA lock confirmation
-
-    Note over Alice,Demeter: Phase 4: ADA Claim with Secret Revelation
-    Alice->>AdaEscrow: Reveal secret + claim ADA
-    AdaEscrow->>AdaEscrow: Validate sha256(secret) == secretHash
-    AdaEscrow->>Alice: Transfer ADA to Alice
-    AdaEscrow->>Oracle: Broadcast secret revelation
-    Oracle->>EthEscrow: Secret now available for ETH claim
-
-    Note over Alice,Demeter: Phase 5: ETH Claim with 1inch Optimization
-    Bob->>Oracle: Get revealed secret
-    Bob->>OneInch: Query optimal swap routes for ETH
-    OneInch->>Bob: Return optimized calldata
-    Bob->>EthEscrow: claimWithOneInch(swapId, secret, oneinchCalldata)
-    EthEscrow->>EthEscrow: Verify keccak256(secret) == secretHash
-    EthEscrow->>OneInch: Execute 1inch swap for optimal rates
-    OneInch->>OneInch: Route through multiple DEXs
-    OneInch->>EthEscrow: Return optimized amount
-    EthEscrow->>Bob: Transfer optimized ETH amount
+    Alice->>ETH: 1. Lock ETH + secret hash
+    ETH->>ADA: 2. Send lock event
+    Bob->>ADA: 3. Lock ADA (same hash)
+    Alice->>ADA: 4. Claim ADA + reveal secret
+    Bob->>ETH: 5. Claim ETH with secret
+    Note over Alice,Bob: ✅ Swap Complete
 ```
 
-### **ADA → ETH with Reverse Flow**
+### **ADA → ETH Swap**
 
 ```mermaid
 sequenceDiagram
-    participant Bob as Bob<br/>(ADA Holder)
-    participant AdaEscrow as reverse_validator.ak<br/>(Cardano)
-    participant Demeter as Demeter.run<br/>(Infrastructure)
-    participant Oracle as Cross-Chain Bridge<br/>(Event Coordination)
-    participant EthEscrow as AtomicSwap1inch.sol<br/>(Ethereum)
-    participant OneInch as 1inch Protocol<br/>(Optimization)
-    participant Alice as Alice<br/>(ETH Holder)
+    participant Bob as 👨 Bob
+    participant ADA as 🔸 Cardano
+    participant ETH as 🔷 Ethereum
+    participant Alice as 👩 Alice
 
-    Note over Bob,Alice: Phase 1: Reverse Flow Initialization
-    Bob->>Bob: Generate secret (32 bytes)
-    Bob->>Bob: secretHash = sha256(secret)
-    Bob->>Demeter: Access Cardano node via Demeter.run
-    Demeter->>AdaEscrow: Prepare reverse validator
-
-    Note over Bob,Alice: Phase 2: ADA Lock First
-    Bob->>AdaEscrow: Lock ADA with reverse_validator.ak
-    AdaEscrow->>AdaEscrow: Create UTXO with secretHash + deadline
-    AdaEscrow->>Demeter: Update via Blockfrost API
-    Demeter->>Oracle: Broadcast ADA lock event
-    Oracle->>EthEscrow: Notify ADA lock with secretHash
-
-    Note over Bob,Alice: Phase 3: ETH Lock Response
-    Alice->>Oracle: Query ADA lock status
-    Oracle->>Alice: Confirm ADA lock details
-    Alice->>EthEscrow: createSwap(secretHash, Bob, deadline, ETH, adaTxHash, minReturn)
-    EthEscrow->>EthEscrow: Apply MEV protection
-    EthEscrow->>EthEscrow: Lock ETH funds
-    EthEscrow->>Oracle: Confirm ETH lock
-
-    Note over Bob,Alice: Phase 4: ETH Claim with 1inch
-    Bob->>OneInch: Query best ETH swap routes
-    OneInch->>Bob: Return aggregated calldata
-    Bob->>EthEscrow: claimWithOneInch(swapId, secret, calldata)
-    EthEscrow->>EthEscrow: Verify keccak256(secret) == secretHash
-    EthEscrow->>OneInch: Execute optimal swap
-    OneInch->>OneInch: Aggregate across Uniswap, Sushiswap, etc.
-    OneInch->>Bob: Transfer optimized ETH
-    EthEscrow->>Oracle: Broadcast secret revelation
-
-    Note over Bob,Alice: Phase 5: ADA Claim with Revealed Secret
-    Alice->>Oracle: Get revealed secret
-    Alice->>Demeter: Access Cardano via Demeter.run
-    Alice->>AdaEscrow: Unlock ADA with revealed secret
-    AdaEscrow->>AdaEscrow: Validate secret against hash
-    AdaEscrow->>Alice: Transfer ADA to Alice
+    Bob->>ADA: 1. Lock ADA + secret hash
+    ADA->>ETH: 2. Send lock event
+    Alice->>ETH: 3. Lock ETH (same hash)
+    Bob->>ETH: 4. Claim ETH + reveal secret
+    Alice->>ADA: 5. Claim ADA with secret
+    Note over Bob,Alice: ✅ Swap Complete
 ```
 
 ---
@@ -685,286 +553,80 @@ cd nuvex-cardano/demeter-atomic-swap
 
 ---
 
-## 🌲 **Code Branch Architecture & Extension Integration**
+## 🌲 **Project Structure**
 
-### **Project Code Branches Overview**
+### **Simple Project Overview**
 
 ```mermaid
-gitgraph
-    commit id: "Initial Setup"
-    branch main
-    commit id: "Basic Escrow"
+graph TB
+    MAIN[🏠 Main Project]
     
-    branch ada-eth-atomic-swap
-    commit id: "Standard Implementation"
-    commit id: "Basic HTLCs"
-    commit id: "Cross-chain Events"
+    MAIN --> ADA[🔸 ada-eth-atomic-swap<br/>Basic Swaps]
+    MAIN --> DEMETER[☁️ demeter-atomic-swap<br/>Cloud + 1inch]
+    MAIN --> CARDANO[🏛️ cardano/<br/>Aiken Validators]
+    MAIN --> ETHEREUM[⛓️ ethereum/<br/>Solidity Contracts]
     
-    branch demeter-atomic-swap
-    commit id: "Cloud Infrastructure"
-    commit id: "1inch Integration" 
-    commit id: "MEV Protection"
-    commit id: "Advanced Features"
-    
-    branch cardano-core
-    commit id: "Aiken Validators"
-    commit id: "Haskell Contracts"
-    commit id: "MeshSDK Integration"
-    
-    branch ethereum-core
-    commit id: "Foundry Setup"
-    commit id: "Basic Escrow Contract"
-    commit id: "Timelock Features"
-    commit id: "1inch Router Integration"
-    
-    checkout main
-    merge ada-eth-atomic-swap
-    merge demeter-atomic-swap
-    merge cardano-core
-    merge ethereum-core
-    commit id: "Production Ready"
+    ADA --> |Basic| SWAP1[Standard HTLCs]
+    DEMETER --> |Advanced| SWAP2[1inch + MEV Protection]
+    CARDANO --> |Validators| VALID[escrow.ak]
+    ETHEREUM --> |Contracts| CONTRACT[AtomicSwap1inch.sol]
 ```
 
 ### **Extension Integration Architecture**
 
 ```mermaid
 graph TB
-    subgraph "🎯 Core Extension Categories"
-        subgraph "🛡️ Security Extensions"
-            OZ_REENTRANCY[ReentrancyGuard<br/>Prevents reentrancy attacks]
-            OZ_OWNABLE[Ownable<br/>Access control]
-            OZ_PAUSABLE[Pausable<br/>Emergency stops]
-        end
-        
-        subgraph "💰 Token Extensions"
-            OZ_ERC20[IERC20<br/>Token interface]
-            OZ_SAFE_ERC20[SafeERC20<br/>Safe transfers]
-            OZ_ERC20_PERMIT[ERC20Permit<br/>Gasless approvals]
-        end
-        
-        subgraph "🌟 DeFi Protocol Extensions"
-            ONEINCH_ROUTER[1inch AggregationRouterV5<br/>Optimal liquidity routing]
-            ONEINCH_ORDER[1inch OrderMixin<br/>Advanced order types]
-            ONEINCH_LIMIT[1inch LimitOrderProtocol<br/>Conditional orders]
-        end
-        
-        subgraph "🏗️ Cardano Extensions"
-            AIKEN_STDLIB[Aiken Standard Library<br/>Core validation functions]
-            PLUTUS_TX[PlutusTx<br/>Haskell to Plutus compilation]
-            MESH_SDK[MeshSDK<br/>Transaction building]
-            BLOCKFROST[Blockfrost API<br/>Blockchain queries]
-        end
-        
-        subgraph "☁️ Demeter.run Extensions"
-            DEMETER_NODE[Cardano Node<br/>Direct blockchain access]
-            DEMETER_BLOCKFROST[Integrated Blockfrost<br/>API access]
-            DEMETER_VSCODE[VS Code IDE<br/>Cloud development]
-            DEMETER_AIKEN[Aiken Language Server<br/>Smart contract support]
-        end
+    subgraph "🛡️ Security"
+        SECURITY[ReentrancyGuard<br/>Ownable<br/>Pausable]
     end
     
-    subgraph "🔄 Integration Points"
-        subgraph "⛓️ Ethereum Contract Integration"
-            ETH_CONTRACT[AtomicSwap1inch.sol]
-            ETH_IMPORTS[Import Structure]
-            ETH_INHERITANCE[Contract Inheritance]
-            ETH_USAGE[Function Usage]
-        end
-        
-        subgraph "🏛️ Cardano Contract Integration"
-            ADA_VALIDATOR[escrow.ak / AtomicSwap.hs]
-            ADA_IMPORTS[Library Imports]
-            ADA_FUNCTIONS[Validation Functions]
-            ADA_TYPES[Data Types]
-        end
-        
-        subgraph "🌐 Cross-Chain Integration"
-            BRIDGE_EVENTS[Event Coordination]
-            BRIDGE_HASH[Hash Synchronization]
-            BRIDGE_TIME[Timelock Coordination]
-        end
+    subgraph "💰 Tokens"
+        TOKENS[IERC20<br/>SafeERC20<br/>ERC20Permit]
     end
     
-    %% Security extension connections
-    OZ_REENTRANCY --> ETH_CONTRACT
-    OZ_OWNABLE --> ETH_CONTRACT
-    OZ_PAUSABLE --> ETH_CONTRACT
+    subgraph "🌟 1inch"
+        ONEINCH[AggregationRouter<br/>OrderMixin<br/>LimitOrders]
+    end
     
-    %% Token extension connections
-    OZ_ERC20 --> ETH_IMPORTS
-    OZ_SAFE_ERC20 --> ETH_INHERITANCE
-    OZ_ERC20_PERMIT --> ETH_USAGE
+    subgraph "�️ Cardano"
+        CARDANO[Aiken Stdlib<br/>PlutusTx<br/>MeshSDK]
+    end
     
-    %% DeFi protocol connections
-    ONEINCH_ROUTER --> ETH_CONTRACT
-    ONEINCH_ORDER --> ETH_IMPORTS
-    ONEINCH_LIMIT --> ETH_USAGE
+    subgraph "⚡ Contract"
+        CONTRACT[AtomicSwap1inch.sol<br/>escrow.ak]
+    end
     
-    %% Cardano extension connections
-    AIKEN_STDLIB --> ADA_VALIDATOR
-    PLUTUS_TX --> ADA_IMPORTS
-    MESH_SDK --> ADA_FUNCTIONS
-    BLOCKFROST --> ADA_TYPES
-    
-    %% Demeter extension connections
-    DEMETER_NODE --> ADA_VALIDATOR
-    DEMETER_BLOCKFROST --> ADA_FUNCTIONS
-    DEMETER_VSCODE --> ADA_VALIDATOR
-    DEMETER_AIKEN --> ADA_VALIDATOR
-    
-    %% Cross-chain connections
-    ETH_CONTRACT --> BRIDGE_EVENTS
-    ADA_VALIDATOR --> BRIDGE_EVENTS
-    ETH_USAGE --> BRIDGE_HASH
-    ADA_FUNCTIONS --> BRIDGE_HASH
-    ETH_CONTRACT --> BRIDGE_TIME
-    ADA_VALIDATOR --> BRIDGE_TIME
-
-    classDef securityStyle fill:#ffebee,stroke:#c62828,stroke-width:2px
-    classDef tokenStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
-    classDef defiStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    classDef cardanoStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    classDef demeterStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    classDef ethStyle fill:#e0f7fa,stroke:#006064,stroke-width:3px
-    classDef adaStyle fill:#e8eaf6,stroke:#3f51b5,stroke-width:3px
-    classDef bridgeStyle fill:#f1f8e9,stroke:#33691e,stroke-width:3px
-    
-    class OZ_REENTRANCY,OZ_OWNABLE,OZ_PAUSABLE securityStyle
-    class OZ_ERC20,OZ_SAFE_ERC20,OZ_ERC20_PERMIT tokenStyle
-    class ONEINCH_ROUTER,ONEINCH_ORDER,ONEINCH_LIMIT defiStyle
-    class AIKEN_STDLIB,PLUTUS_TX,MESH_SDK,BLOCKFROST cardanoStyle
-    class DEMETER_NODE,DEMETER_BLOCKFROST,DEMETER_VSCODE,DEMETER_AIKEN demeterStyle
-    class ETH_CONTRACT,ETH_IMPORTS,ETH_INHERITANCE,ETH_USAGE ethStyle
-    class ADA_VALIDATOR,ADA_IMPORTS,ADA_FUNCTIONS,ADA_TYPES adaStyle
-    class BRIDGE_EVENTS,BRIDGE_HASH,BRIDGE_TIME bridgeStyle
+    SECURITY --> CONTRACT
+    TOKENS --> CONTRACT
+    ONEINCH --> CONTRACT
+    CARDANO --> CONTRACT
 ```
 
 ### **How Extensions Work Together**
 
 ```mermaid
-graph LR
-    subgraph "🔗 Extension Interaction Flow"
-        subgraph "📥 Import Phase"
-            IMPORT[Contract Imports<br/>Extensions & Interfaces]
-            INHERIT[Contract Inheritance<br/>Multiple extension classes]
-            USING[Using Directives<br/>Library functions]
-        end
-        
-        subgraph "🏗️ Initialization Phase"
-            CONSTRUCTOR[Constructor<br/>Initialize extensions]
-            SETUP[Setup Phase<br/>Configure parameters]
-            VALIDATION[Validation<br/>Extension compatibility]
-        end
-        
-        subgraph "⚡ Runtime Phase"
-            MODIFIERS[Function Modifiers<br/>Security enforcement]
-            CALLS[Extension Calls<br/>Functionality usage]
-            EVENTS[Event Emissions<br/>Cross-chain coordination]
-        end
-        
-        subgraph "🔄 Integration Phase"
-            COORDINATION[Cross-Chain Coordination<br/>Event synchronization]
-            OPTIMIZATION[1inch Optimization<br/>Liquidity routing]
-            SECURITY[Security Enforcement<br/>Multi-layer protection]
-        end
-    end
+flowchart LR
+    A[📥 Import] --> B[🏗️ Initialize]
+    B --> C[⚡ Execute]
+    C --> D[🔄 Integrate]
     
-    IMPORT --> INHERIT
-    INHERIT --> USING
-    USING --> CONSTRUCTOR
-    CONSTRUCTOR --> SETUP
-    SETUP --> VALIDATION
-    VALIDATION --> MODIFIERS
-    MODIFIERS --> CALLS
-    CALLS --> EVENTS
-    EVENTS --> COORDINATION
-    COORDINATION --> OPTIMIZATION
-    OPTIMIZATION --> SECURITY
-
-    classDef importStyle fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
-    classDef initStyle fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    classDef runtimeStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
-    classDef integrationStyle fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px
-    
-    class IMPORT,INHERIT,USING importStyle
-    class CONSTRUCTOR,SETUP,VALIDATION initStyle
-    class MODIFIERS,CALLS,EVENTS runtimeStyle
-    class COORDINATION,OPTIMIZATION,SECURITY integrationStyle
+    A -.-> |Libraries| E[OpenZeppelin<br/>1inch<br/>Aiken]
+    B -.-> |Setup| F[Security<br/>Tokens<br/>DeFi]
+    C -.-> |Runtime| G[Functions<br/>Modifiers<br/>Events]
+    D -.-> |Cross-chain| H[Ethereum<br/>Cardano<br/>Bridge]
 ```
 
 ### **1. Standard Atomic Swap Implementation (`ada-eth-atomic-swap/`)**
 
-#### **ETH → ADA Flow Diagram**
+#### **Simple Swap Process**
 
 ```mermaid
-sequenceDiagram
-    participant Alice as Alice (ETH Holder)
-    participant EthContract as Ethereum Escrow
-    participant Oracle as Cross-Chain Oracle
-    participant CardanoContract as Cardano Validator
-    participant Bob as Bob (ADA Holder)
-
-    Note over Alice,Bob: Phase 1: Initialization
-    Alice->>Alice: Generate secret (32 bytes)
-    Alice->>Alice: Create hash = keccak256(secret)
-    
-    Note over Alice,Bob: Phase 2: ETH Lock
-    Alice->>EthContract: createSwap(hash, Bob, deadline, amount)
-    EthContract->>EthContract: Lock ETH funds
-    EthContract->>Oracle: Emit CrossChainEvent
-    
-    Note over Alice,Bob: Phase 3: ADA Lock
-    Bob->>Oracle: Query ETH lock status
-    Oracle->>Bob: Return ETH lock confirmation
-    Bob->>CardanoContract: Lock ADA with same hash
-    CardanoContract->>CardanoContract: Create UTXO with hash
-    
-    Note over Alice,Bob: Phase 4: Secret Revelation
-    Alice->>CardanoContract: Reveal secret + claim ADA
-    CardanoContract->>Alice: Transfer ADA
-    CardanoContract->>Oracle: Broadcast secret
-    
-    Note over Alice,Bob: Phase 5: ETH Claim
-    Bob->>Oracle: Get revealed secret
-    Bob->>EthContract: claimWithSecret(secret)
-    EthContract->>EthContract: Verify hash(secret)
-    EthContract->>Bob: Transfer ETH
-```
-
-#### **ADA → ETH Flow Diagram**
-
-```mermaid
-sequenceDiagram
-    participant Bob as Bob (ADA Holder)
-    participant CardanoContract as Cardano Validator
-    participant Oracle as Cross-Chain Oracle
-    participant EthContract as Ethereum Escrow
-    participant Alice as Alice (ETH Holder)
-
-    Note over Bob,Alice: Phase 1: Initialization
-    Bob->>Bob: Generate secret (32 bytes)
-    Bob->>Bob: Create hash = sha256(secret)
-    
-    Note over Bob,Alice: Phase 2: ADA Lock
-    Bob->>CardanoContract: Lock ADA with hash
-    CardanoContract->>CardanoContract: Create UTXO with hash
-    CardanoContract->>Oracle: Emit ADA lock event
-    
-    Note over Bob,Alice: Phase 3: ETH Lock
-    Alice->>Oracle: Query ADA lock status
-    Oracle->>Alice: Return ADA lock confirmation
-    Alice->>EthContract: createSwap(hash, Bob, deadline, amount)
-    EthContract->>EthContract: Lock ETH funds
-    
-    Note over Bob,Alice: Phase 4: Secret Revelation
-    Bob->>EthContract: Reveal secret + claim ETH
-    EthContract->>Bob: Transfer ETH
-    EthContract->>Oracle: Broadcast secret
-    
-    Note over Bob,Alice: Phase 5: ADA Claim
-    Alice->>Oracle: Get revealed secret
-    Alice->>CardanoContract: Unlock ADA with secret
-    CardanoContract->>Alice: Transfer ADA
+graph TD
+    A[👩 Alice: Generate Secret] --> B[🔷 Lock ETH with Hash]
+    B --> C[🔸 Bob: Lock ADA with Same Hash]
+    C --> D[👩 Alice: Claim ADA + Reveal Secret]
+    D --> E[👨 Bob: Claim ETH with Secret]
+    E --> F[✅ Swap Complete]
 ```
 
 ---
@@ -1348,6 +1010,7 @@ function createSwap(
 ```
 
 **Features:**
+
 - ✅ **Unique Swap ID Generation**: `keccak256(sender + beneficiary + secretHash + deadline + nonce + timestamp)`
 - ✅ **MEV Protection Validation**: Gas price limits, deadline buffer validation
 - ✅ **Multi-token Support**: ETH and ERC20 tokens
@@ -1364,6 +1027,7 @@ function claimWithOneInch(
 ```
 
 **Features:**
+
 - ✅ **Secret Verification**: `keccak256(secret) == storedHash`
 - ✅ **Deadline Validation**: Block timestamp checking
 - ✅ **Beneficiary Authorization**: Only designated claimer
@@ -1400,7 +1064,7 @@ function executePartialFill(
 
 ## 📦 **Project Structure**
 
-```
+```text
 nuvex-cardano/
 ├── 📖 README.md                           # This comprehensive guide
 ├── 🎥 demo-video/                         # Demonstration materials
@@ -1586,7 +1250,7 @@ MIT License - See LICENSE file for details.
 
 ---
 
-**🌟 Built with ❤️ for the decentralized future of cross-chain finance**
+## 🌟 Built with ❤️ for the decentralized future of cross-chain finance
 
 Chain 11155111
 
@@ -1598,7 +1262,8 @@ Estimated amount required: 0.00000091374269584 ETH
 
 ==========================
 
-##### sepolia
+### Sepolia Testnet
+
 ✅  [Success] Hash: 0x693c3ef7bc1b6f0e1ba4648460f42d032d383984d72fc8c646b644087b6dc066
 Contract Address: 0x7221d00404Ac3EdcD38BcfAEd261b41b676721C9
 Block: 8848709
@@ -1617,7 +1282,7 @@ Script ran successfully.
 == Logs ==
   Contract deployed to: 0x35f0289a16f9427A8f2EDdFf3151Dc088873129c
 
-## Setting up 1 EVM.
+## Setting up 1 EVM
 
 ==========================
 
@@ -1629,9 +1294,10 @@ Estimated total gas used for script: 506038
 
 Estimated amount required: 0.000000612537745404 ETH
 
-==========================
+=========================
 
-##### sepolia
+### Sepolia Deployment #2
+
 ✅  [Success] Hash: 0x06652668660c9059a4a33f188459bf1cfcfa874a784f3270b9dbb918bb0dff65
 Contract Address: 0x35f0289a16f9427A8f2EDdFf3151Dc088873129c
 Block: 8848753
@@ -1639,16 +1305,12 @@ Paid: 0.00000043189837262 ETH (389260 gas * 0.001109537 gwei)
 
 ✅ Sequence #1 on sepolia | Total Paid: 0.00000043189837262 ETH (389260 gas * avg 0.001109537 gwei)
 
-
 ==========================
 
 ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
 
-https://sepolia.etherscan.io/tx/0xb1be12ddee19b3b0c6c6d2fa556a454e9441c945bcaca4ee2252147a34f0983f
-
-
-
-
+**Transaction**: [View on Etherscan](https://sepolia.etherscan.io/tx/0xb1be12ddee19b3b0c6c6d2fa556a454e9441c945bcaca4ee2252147a34f0983f)
 
 ✅ Contract Address: 0x0C47546DC870782DDD8A86E0FEb12995523E380d
-new one 
+
+New deployment completed successfully.
