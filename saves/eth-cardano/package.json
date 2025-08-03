@@ -1,0 +1,17 @@
+{
+  "name": "cardano",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@meshsdk/core": "^1.7.5",
+    "@meshsdk/core-csl": "^1.7.5",
+    "dotenv": "^16.5.0",
+    "meshjs": "^1.7.5",
+    "meshsdk": "^0.0.1"
+  }
+}

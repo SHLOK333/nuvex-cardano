@@ -1,0 +1,86 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Bun dependencies
+bun.lockb
+.bun/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Private keys and addresses (IMPORTANT - SECURITY!)
+*.sk
+*.skey
+*.vkey
+*.addr
+beneficiary.sk
+beneficiary.addr
+owner.sk
+owner.addr
+payment.skey
+payment.vkey
+stake.skey
+stake.vkey
+
+# Cardano-specific files
+protocol-parameters.json
+*.tx
+*.tx-body
+*.witness
+*.signed
+utxo.out
+
+# Build outputs
+build/
+dist/
+out/
+
+# Aiken build artifacts (in nested Aiken projects)
+**/build/
+**/artifacts/
+**/.aiken/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Coverage reports
+coverage/
+coverage.json
+*.lcov
+
+# Database files
+*.db
+*.sqlite
+
+# TypeScript
+*.tsbuildinfo
