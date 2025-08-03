@@ -1,0 +1,37 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+remappings = [
+    "@openzeppelin/=lib/openzeppelin-contracts/",
+    "@1inch/=lib/1inch-contracts/"
+]
+
+# Compiler settings
+solc_version = "0.8.19"
+optimizer = true
+optimizer_runs = 200
+via_ir = false
+
+# Test settings
+verbosity = 2
+fuzz_runs = 1000
+
+# Network configurations for Demeter.run
+[rpc_endpoints]
+sepolia = "${SEPOLIA_RPC_URL}"
+mainnet = "${MAINNET_RPC_URL}"
+
+# Etherscan API for verification
+[etherscan]
+sepolia = { key = "${ETHERSCAN_API_KEY}" }
+mainnet = { key = "${ETHERSCAN_API_KEY}" }
+
+# Gas configurations
+[profile.default.gas_reports]
+exclude = ["test/**/*"]
+
+# 1inch Protocol specific settings
+[profile.oneinch]
+optimizer_runs = 1000000  # High optimization for 1inch integration
+gas_limit = 500000       # Gas limit for 1inch swaps

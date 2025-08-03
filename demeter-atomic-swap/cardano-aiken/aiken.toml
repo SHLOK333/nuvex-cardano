@@ -1,0 +1,36 @@
+[package]
+name = "demeter-atomic-swap"
+version = "1.0.0"
+description = "Atomic swap contract for Demeter.run with 1inch integration"
+authors = ["Nuvex Team <nuvex@example.com>"]
+license = "MIT"
+repository = "https://github.com/SHLOK333/nuvex-cardano"
+
+[dependencies]
+aiken-lang/stdlib = "1.9.0"
+
+[[dependencies.source]]
+name = "aiken-lang/stdlib"
+version = "1.9.0"
+source = "github"
+
+[config]
+# Demeter.run configuration
+default_compiler = "v1.0.29-alpha"
+
+[config.demeter]
+# Demeter.run specific settings
+node_socket = "/opt/cardano/cnode/sockets/node.socket"
+network = "preprod"  # or "mainnet"
+testnet_magic = 1    # for preprod
+
+[config.networks]
+# Network configurations for Demeter.run
+[config.networks.preprod]
+network_id = 0
+testnet_magic = 1
+cardano_node_socket_path = "/opt/cardano/cnode/sockets/node.socket"
+
+[config.networks.mainnet]
+network_id = 1
+cardano_node_socket_path = "/opt/cardano/cnode/sockets/node.socket"

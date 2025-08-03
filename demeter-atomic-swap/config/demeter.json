@@ -1,0 +1,141 @@
+{
+  "demeter": {
+    "version": "2.0",
+    "platform": "cloud",
+    "infrastructure": "kubernetes",
+    "region": "eu-west-1"
+  },
+  "cardanoNode": {
+    "version": "8.7.3",
+    "network": "configurable",
+    "socketPath": "/opt/cardano/cnode/sockets/node.socket",
+    "configPath": "/opt/cardano/cnode/config",
+    "dbPath": "/opt/cardano/cnode/db",
+    "topology": "p2p",
+    "enableMetrics": true,
+    "metrics": {
+      "port": 12798,
+      "host": "0.0.0.0"
+    }
+  },
+  "blockfrost": {
+    "integration": "native",
+    "autoConfig": true,
+    "rateLimit": {
+      "requestsPerSecond": 10,
+      "burstLimit": 500
+    },
+    "caching": {
+      "enabled": true,
+      "ttl": 30
+    }
+  },
+  "development": {
+    "vscode": {
+      "enabled": true,
+      "extensions": [
+        "haskell.haskell",
+        "aiken-lang.aiken",
+        "ms-vscode.vscode-typescript-next",
+        "bradlc.vscode-tailwindcss"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.watcherExclude": {
+          "**/node_modules/**": true,
+          "**/build/**": true,
+          "**/dist/**": true
+        }
+      }
+    },
+    "ports": {
+      "forwarding": [
+        {
+          "local": 3000,
+          "remote": 3000,
+          "description": "Development server"
+        },
+        {
+          "local": 8080,
+          "remote": 8080,
+          "description": "Alternative web server"
+        }
+      ]
+    }
+  },
+  "environment": {
+    "variables": {
+      "PATH": "/home/demeter/.aiken/bin:/home/demeter/.ghcup/bin:/home/demeter/.cabal/bin:$PATH",
+      "CARDANO_NODE_SOCKET_PATH": "/opt/cardano/cnode/sockets/node.socket",
+      "NODE_ENV": "development",
+      "RUST_LOG": "info"
+    },
+    "secrets": {
+      "blockfrostProjectId": {
+        "source": "demeter-secrets",
+        "key": "blockfrost-project-id"
+      },
+      "ethPrivateKey": {
+        "source": "user-secrets",
+        "key": "eth-private-key"
+      }
+    }
+  },
+  "networking": {
+    "ingress": {
+      "enabled": true,
+      "subdomain": "atomic-swap",
+      "tls": true
+    },
+    "egress": {
+      "allowedHosts": [
+        "api.1inch.io",
+        "eth-sepolia.g.alchemy.com",
+        "eth-mainnet.g.alchemy.com",
+        "cardano-preprod.blockfrost.io",
+        "cardano-mainnet.blockfrost.io",
+        "github.com",
+        "registry.npmjs.org"
+      ]
+    }
+  },
+  "storage": {
+    "persistent": {
+      "size": "10Gi",
+      "mountPath": "/workspace/data",
+      "backupEnabled": true
+    },
+    "cache": {
+      "size": "5Gi",
+      "mountPath": "/workspace/cache"
+    }
+  },
+  "resources": {
+    "limits": {
+      "cpu": "2",
+      "memory": "4Gi",
+      "storage": "20Gi"
+    },
+    "requests": {
+      "cpu": "500m",
+      "memory": "1Gi"
+    }
+  },
+  "monitoring": {
+    "prometheus": {
+      "enabled": true,
+      "scrapeInterval": "30s"
+    },
+    "logging": {
+      "level": "info",
+      "format": "json",
+      "outputs": ["stdout", "file"]
+    }
+  },
+  "backup": {
+    "enabled": true,
+    "schedule": "0 2 * * *",
+    "retention": "30d",
+    "destinations": ["s3"]
+  }
+}

@@ -1,0 +1,78 @@
+name: atomic-swap-demeter
+version: 1.0.0
+synopsis: Atomic swap contract for Demeter.run with 1inch integration
+description: |
+  Complete atomic swap implementation for Cardano with 1inch protocol integration.
+  Designed to run on Demeter.run infrastructure with support for preprod and mainnet.
+
+category: Blockchain
+author: Nuvex Team
+maintainer: nuvex@example.com
+license: MIT
+
+dependencies:
+  - base >= 4.14 && < 5
+  - aeson
+  - bytestring
+  - containers
+  - plutus-core
+  - plutus-contract
+  - plutus-ledger
+  - plutus-ledger-api
+  - plutus-ledger-constraints
+  - plutus-tx
+  - plutus-tx-plugin
+  - playground-common
+  - text
+  - cardano-api
+  - cardano-cli
+  - cardano-node-emulator
+  - serialise
+  - transformers
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - AtomicSwap
+    - OneInchIntegration
+    - DemeterUtils
+  default-extensions:
+    - DataKinds
+    - DeriveAnyClass
+    - DeriveGeneric
+    - FlexibleContexts
+    - NoImplicitPrelude
+    - OverloadedStrings
+    - ScopedTypeVariables
+    - TemplateHaskell
+    - TypeApplications
+    - TypeFamilies
+    - TypeOperators
+
+executables:
+  atomic-swap-cli:
+    main: Main.hs
+    source-dirs: app
+    dependencies:
+      - atomic-swap-demeter
+      - optparse-applicative
+
+tests:
+  atomic-swap-test:
+    main: Spec.hs
+    source-dirs: test
+    dependencies:
+      - atomic-swap-demeter
+      - hspec
+      - plutus-contract
+      - plutus-tx-plugin
+
+ghc-options:
+  - -Wall
+  - -Wcompat
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wredundant-constraints
+  - -fobject-code
+  - -fno-ignore-interface-pragmas
+  - -fno-omit-interface-pragmas

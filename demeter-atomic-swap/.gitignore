@@ -1,0 +1,223 @@
+# Demeter.run Atomic Swap - .gitignore
+
+# ============================================================================
+# SECURITY - NEVER COMMIT THESE FILES
+# ============================================================================
+
+# Private keys and sensitive credentials
+*.key
+*.sk
+*.skey
+*private*
+*secret*
+*.env
+.env.*
+secrets/
+keys/
+credentials/
+
+# API keys and configuration
+*api-key*
+*blockfrost*
+*alchemy*
+*infura*
+*1inch-api*
+
+# Wallet files
+*.wallet
+*.addr
+beneficiary.*
+owner.*
+wallet-*
+
+# ============================================================================
+# BUILD ARTIFACTS & DEPENDENCIES
+# ============================================================================
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+.pnpm-debug.log*
+
+# Bun
+bun.lockb
+
+# ============================================================================
+# HASKELL & PLUTUS
+# ============================================================================
+
+# Stack
+.stack-work/
+stack.yaml.lock
+
+# Cabal
+dist/
+dist-newstyle/
+cabal.project.local*
+.ghc.environment.*
+
+# Plutus
+plutus-tx-plugin.log
+*.plutus
+*.json.bak
+
+# ============================================================================
+# AIKEN
+# ============================================================================
+
+# Aiken build artifacts
+build/
+artifacts/
+aiken-compile.lock
+packages/
+
+# Aiken dependencies
+lib/aiken-*
+.aiken/
+
+# ============================================================================
+# ETHEREUM & FOUNDRY
+# ============================================================================
+
+# Foundry
+cache/
+out/
+broadcast/
+*.gas-snapshot
+
+# Hardhat
+artifacts/
+cache/
+typechain/
+typechain-types/
+
+# Coverage reports
+coverage/
+coverage.json
+lcov.info
+
+# ============================================================================
+# SMART CONTRACT ARTIFACTS
+# ============================================================================
+
+# Compiled contracts
+*.abi
+*.bin
+*.sol.json
+deployments/local/
+
+# Contract addresses (may contain sensitive info)
+*address*
+*deployed*
+contract-*.json
+
+# ============================================================================
+# DEVELOPMENT & IDE
+# ============================================================================
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# IDE files
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# ============================================================================
+# TESTING & DEPLOYMENT
+# ============================================================================
+
+# Test artifacts
+.nyc_output/
+test-results/
+coverage/
+
+# Local deployment artifacts
+deployment-*.json
+*.deployment
+
+# Testnet/Mainnet specific configs (may contain keys)
+*mainnet*
+*testnet*
+*preprod*
+local.json
+
+# ============================================================================
+# SYSTEM & MISC
+# ============================================================================
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Archive files (may contain sensitive data)
+*.zip
+*.tar.gz
+*.rar
+
+# ============================================================================
+# DEMETER.RUN SPECIFIC
+# ============================================================================
+
+# Demeter workspace files
+.demeter/
+demeter-workspace/
+*.demeter
+
+# Runtime configurations
+runtime-config.json
+workspace-*.json
+
+# ============================================================================
+# ALLOWED FILES (explicitly track important configs)
+# ============================================================================
+
+# Keep essential config templates
+!config/template.json
+!config/example.json
+!config/*.template.json
+!foundry.toml
+!aiken.toml
+!package.yaml
+
+# Keep documentation
+!README.md
+!docs/
+!*.md
+
+# Keep scripts (but review for secrets)
+!scripts/*.sh
+!scripts/*.js
+!scripts/*.ts
+
+# Keep source code
+!src/
+!validators/
+!lib/ # but exclude lib/aiken-*
