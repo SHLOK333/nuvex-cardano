@@ -1,7 +1,7 @@
 {
   "preamble": {
-    "title": "adcazzum/escrow",
-    "description": "Aiken contracts for project 'adcazzum/escrow'",
+    "title": "sk45/escrow",
+    "description": "Aiken contracts for project 'sk45/escrow'",
     "version": "0.0.0",
     "plutusVersion": "v3",
     "compiler": {
